@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import json
 
 class Ticket(object):
@@ -14,11 +15,10 @@ class Ticket(object):
 
 class TicketSort(object):
 
-    output = cStringIO.StringIO()
     direction_dict = {}
     sorted_tickets = []
     first_ticket = None
-    self.tickets_num = 0
+    tickets_num = 0
 
     def __init__(self, tickets_data, format='json'):
         """ Input - tickets data in format 
@@ -77,18 +77,22 @@ class TicketSort(object):
             n += 1
             yield t.get_info()
 
+def test(n):
+    tickets_data=[]
+    for i in xrange(1,n):
+        if i%2:
+            tickets_data.append({'from_dir': str(i)+'from', 'to_dir': str(i+1)+'to', 'transport_name': 'bus'})
+        else:
+            tickets_data.append({'from_dir': str(i)+'to', 'to_dir': str(i+1)+'from', 'transport_name': 'train'})
+
+    from random import shuffle
+    shuffle(tickets_data)
+
+    tks = TicketSort(json.dumps(tickets_data))
+    for t in tks.sort_tickets():
+        print t
+
 
 # Usage example
-tickets_data=[]
-for i in range(1,100000):
-    if i%2:
-        tickets_data.append({'from_dir': str(i)+'from', 'to_dir': str(i+1)+'to', 'transport_name': 'bus'})
-    else:
-        tickets_data.append({'from_dir': str(i)+'to', 'to_dir': str(i+1)+'from', 'transport_name': 'train'})
-
-from random import shuffle
-shuffle(tickets_data)
-
-tks = TicketSort(json.dumps(tickets_data))
-for t in tks.sort_tickets():
-    print t
+if __name__ == '__main__':
+    test(100000)
