@@ -83,7 +83,9 @@ def test(n):
         if i%2:
             tickets_data.append({'from_dir': str(i)+'from', 'to_dir': str(i+1)+'to', 'transport_name': 'bus'})
         else:
-            tickets_data.append({'from_dir': str(i)+'to', 'to_dir': str(i+1)+'from', 'transport_name': 'train'})
+            tickets_data.append({'from_dir': str(i)+'to', 'to_dir': str(i+1)+'from', 'transport_name': 'train', 
+                'additional_info': 'Seat{}A'.format(str(i))
+                })
 
     from random import shuffle
     shuffle(tickets_data)
